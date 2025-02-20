@@ -14,6 +14,10 @@ class RunConfig(BaseModel):
 
 class DbConfig(BaseModel):
     url: PostgresDsn
+    echo: bool = True
+    echo_pool: bool = True
+    max_overflow: int = 10
+    pool_size: int = 30
 
 
 class Config(BaseSettings):
