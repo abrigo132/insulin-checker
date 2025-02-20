@@ -5,6 +5,13 @@ from pathlib import Path
 BASE_DIR = Path(__file__).parent.parent
 
 
+class RunConfig(BaseModel):
+    host: str = "127.0.0.1"
+    port: int = 8080
+    reload: bool = True
+    app: str = "main:app_insulin"
+
+
 class DbConfig(BaseModel):
     url: PostgresDsn
 
@@ -18,6 +25,7 @@ class Config(BaseSettings):
     )
 
     db: DbConfig
+    run: RunConfig = RunConfig()
 
 
-settings: DbConfig = DbConfig()
+settings: Config = Config()
