@@ -6,6 +6,7 @@ from uvicorn import run
 
 from src.core.config import settings
 from src.core.models.db_helper import db_helper
+from src.api import router as api_router
 
 
 @asynccontextmanager
@@ -18,6 +19,7 @@ async def lifespan(app: FastAPI):
 
 app_insulin = FastAPI(default_response_class=ORJSONResponse, lifespan=lifespan)
 
+app_insulin.include_router(api_router)
 
 if __name__ == "__main__":
     run(
