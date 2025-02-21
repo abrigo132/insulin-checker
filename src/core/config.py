@@ -12,6 +12,16 @@ class RunConfig(BaseModel):
     app: str = "main:app_insulin"
 
 
+class ApiV1PrefixConfig(BaseModel):
+    prefix: str = "/v1"
+    users: str = "/users"
+
+
+class ApiPrefixConfig(BaseModel):
+    prefix: str = "/api"
+    v1: ApiV1PrefixConfig = ApiV1PrefixConfig()
+
+
 class DbConfig(BaseModel):
     url: PostgresDsn
     echo: bool = True
@@ -30,6 +40,7 @@ class Config(BaseSettings):
 
     db: DbConfig
     run: RunConfig = RunConfig()
+    api: ApiPrefixConfig = ApiV1PrefixConfig()
 
 
 settings: Config = Config()
