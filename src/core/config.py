@@ -48,7 +48,7 @@ class Config(BaseSettings):
 
     db: DbConfig
     run: RunConfig = RunConfig()
-    api: ApiPrefixConfig = ApiV1PrefixConfig()
+    api: ApiPrefixConfig = ApiPrefixConfig()
 
 
 settings: Config = Config()
