@@ -38,6 +38,14 @@ class DbConfig(BaseModel):
     }
 
 
+class JwtConfig(BaseModel):
+    public: Path = BASE_DIR / "certs" / "jwt-public.pem"
+    private: Path = BASE_DIR / "certs" / "jwt-private.pem"
+    algorithm: str = "RS256"
+    access_token_expire_minutes: int = 15
+    refresh_token_expire_days: int = 60 * 24 * 30
+
+
 class Config(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env.dev",
@@ -49,6 +57,7 @@ class Config(BaseSettings):
     db: DbConfig
     run: RunConfig = RunConfig()
     api: ApiPrefixConfig = ApiPrefixConfig()
+    jwt: JwtConfig = JwtConfig()
 
 
 settings: Config = Config()
