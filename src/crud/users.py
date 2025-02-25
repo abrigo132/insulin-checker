@@ -1,4 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 
 from src.core.schemas.users import UserCreate
 from src.core.models.users import User
@@ -16,3 +17,9 @@ class UsersCrud:
         session.add(user)
         await session.commit()
         return user
+
+    @staticmethod
+    async def get_user_by_username(session: AsyncSession, username: str) -> User:
+        stmt = select(User).where(User.username == username)
+        user_result = await session.scalars(stmt)
+        return user_result.one_or_none()
