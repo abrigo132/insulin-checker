@@ -19,3 +19,8 @@ class UserRead(User):
 class UserCreate(User):
     password: str
     confirm_password: str
+
+
+class UserLogin(BaseModel):
+    username: str
+    password: str
