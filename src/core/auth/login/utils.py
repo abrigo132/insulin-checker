@@ -50,7 +50,7 @@ def create_jwt(
 
 
 def create_access_jwt(user: User):
-    jwt_payload = {"id": user.id, "sub": user.username, "email": user.email}
+    jwt_payload = {"id": user.id, "sub": user.username}
     return create_jwt(
         token_data=jwt_payload,
         token_type=ACCESS_TOKEN_TYPE,
