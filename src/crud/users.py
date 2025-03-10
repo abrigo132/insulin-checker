@@ -29,3 +29,26 @@ class UsersCrud:
         stmt = select(User).where(User.id == user_id)
         user_result: ScalarResult[User] = await session.scalars(stmt)
         return user_result.one_or_none()
+
+    @staticmethod
+    async def add_user_token(
+        user_id: int, token: str, session: AsyncSession
+    ) -> UserToken:
+        user_token: UserToken = UserToken(token=token, user_id=user_id)
+        session.add(user_token)
+        await session.commit()
+        return user_token
+
+    @staticmethod
+    async def change_flag_is_verifed(user_id: int, session: AsyncSession) -> User:
+        stmt = select(User).where(User.id == user_id)
+        user_scalar: ScalarResult[User] = await session.scalars(stmt)
+        user_info = user_scalar.one_or_none()
+
+        if user_info:
+            user_info.is_verified = True
+            await session.commit()
+            await session.refresh(user_info)
+            return user_info
+        else:
+            return False
