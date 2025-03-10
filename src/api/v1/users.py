@@ -76,3 +76,38 @@ async def user_login(
         access_token=access_token,
         refresh_token=refresh_token,
     )
+
+
+@router.get("/verification/", response_model=UserRead)
+async def verified_user(
+    session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
+    verif_token: str,
+    crud_token: Annotated[VerifToken, Depends(VerifToken)],
+    crud_user: Annotated[UsersCrud, Depends(UsersCrud)],
+):
+    check_verif_token: UserToken | None = await crud_token.get_verif_token_user(
+        session=session, verif_token=verif_token
+    )
+    if check_verif_token:
+        if (
+            datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None)
+            > check_verif_token.expires_at
+        ):
+            raise HTTPException(
+                status_code=HTTP_401_UNAUTHORIZED,
+                detail="Verification token has expired",
+            )
+        user_data: User | False | None = await crud_user.change_flag_is_verifed(
+            user_id=check_verif_token.user_id,
+            session=session,
+        )
+        if user_data:
+            delete_verif_token: bool = await crud_token.delete_user_verif_token(
+                session=session,
+                token_id=check_verif_token.id,
+            )
+            if delete_verif_token:
+                return user_data
+    raise HTTPException(
+        status_code=HTTP_401_UNAUTHORIZED, detail="Verification token invalid"
+    )
