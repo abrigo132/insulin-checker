@@ -21,5 +21,11 @@ class UsersCrud:
     @staticmethod
     async def get_user_by_username(session: AsyncSession, username: str) -> User:
         stmt = select(User).where(User.username == username)
-        user_result = await session.scalars(stmt)
+        user_result: ScalarResult[User] = await session.scalars(stmt)
+        return user_result.one_or_none()
+
+    @staticmethod
+    async def get_user_by_id(session: AsyncSession, user_id: int) -> User:
+        stmt = select(User).where(User.id == user_id)
+        user_result: ScalarResult[User] = await session.scalars(stmt)
         return user_result.one_or_none()
