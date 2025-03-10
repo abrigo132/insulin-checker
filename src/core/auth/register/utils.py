@@ -1,4 +1,5 @@
 import bcrypt
+import secrets
 
 
 def hashed_password(password: str) -> bytes:
