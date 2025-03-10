@@ -16,3 +16,7 @@ async def check_confirm_password_with_password(
     if password != confirm_password:
         return False
     return True
+
+
+def create_confirm_register_token_url():
+    return secrets.token_urlsafe()
