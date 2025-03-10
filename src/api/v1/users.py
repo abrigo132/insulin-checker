@@ -1,20 +1,24 @@
 from typing import Annotated
 from sqlalchemy.ext.asyncio import AsyncSession
+import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, Form
 from starlette.status import HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 
-from src.core.config import settings
-from src.core.schemas.users import UserCreate, UserRead, UserLogin
-from src.core.models.db_helper import db_helper
-from src.core.auth.register.utils import (
+from core import settings
+from core.schemas import UserCreate, UserRead, UserLogin
+from core.models import db_helper
+from core.auth.register import (
     check_confirm_password_with_password,
     check_hash_password,
+    create_confirm_register_token_url,
 )
-from src.crud.users import UsersCrud
-from src.core.models.users import User
-from src.core.auth.login.utils import create_access_jwt, create_refresh_jwt
-from src.core.schemas.jwt import TokenInfo
+from crud import UsersCrud
+from core.models import User, UserToken
+from core.auth.login import create_access_jwt, create_refresh_jwt
+from core.schemas import TokenInfo
+from tasks import send_verification_message
+from crud import VerifToken
 
 router = APIRouter(prefix=settings.api.v1.users)
 
