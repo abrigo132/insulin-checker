@@ -13,9 +13,11 @@ from core import broker
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # старт приложения
+    await broker.startup()
     yield
     # завершение приложения
     await db_helper.dispose()
+    await broker.shutdown()
 
 
 app_insulin = FastAPI(default_response_class=ORJSONResponse, lifespan=lifespan)
