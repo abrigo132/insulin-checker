@@ -1,5 +1,5 @@
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, ScalarResult
 
 from src.core.schemas.users import UserCreate
 from src.core.models.users import User
