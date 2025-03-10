@@ -24,3 +24,8 @@ class UserCreate(User):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+
+class UserToken(BaseModel):
+    token: str
+    user_id: int
