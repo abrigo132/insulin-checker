@@ -1,9 +1,9 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, ScalarResult
 
-from src.core.schemas.users import UserCreate
-from src.core.models.users import User
-from src.core.auth.register.utils import hashed_password
+from core.schemas import UserCreate
+from core.models import User, UserToken
+from core.auth.register import hashed_password
 
 
 class UsersCrud:
