@@ -12,3 +12,11 @@ class User(Base):
     sensitivity: Mapped[int] = mapped_column(nullable=True)
     is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
     is_verified: Mapped[bool] = mapped_column(default=False, nullable=False)
+
+
+class UserToken(Base):
+    token: Mapped[str] = mapped_column(unique=True, nullable=True, index=True)
+    expires_at: Mapped[datetime.datetime] = mapped_column(
+        default=func.now() + datetime.timedelta(days=2)
+    )
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
