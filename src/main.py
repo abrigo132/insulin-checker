@@ -4,9 +4,10 @@ from fastapi import FastAPI
 from fastapi.responses import ORJSONResponse
 from uvicorn import run
 
-from src.core.config import settings
-from src.core.models.db_helper import db_helper
-from src.api import router as api_router
+from core import settings
+from core.models import db_helper
+from api import router as api_router
+from core import broker
 
 
 @asynccontextmanager
