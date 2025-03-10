@@ -36,7 +36,16 @@ async def register_user(
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST, detail="Пароли не совпадают"
         )
-    user_register = await crud.create_user(session=session, user_create=credentials)
+    user_register: User = await crud.create_user(
+        session=session, user_create=credentials
+    )
+    confirm_token = create_confirm_register_token_url()
+    token_register: UserToken = await crud.add_user_token(
+        user_id=user_register.id,
+        token=confirm_token,
+        session=session,
+    )
+    await send_verification_message.kiq(user_register.id, confirm_token)
     return user_register
 
 
