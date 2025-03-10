@@ -3,8 +3,8 @@ from datetime import timedelta
 
 import jwt
 from typing import TypeVar
-from src.core.config import settings
-from src.core.models.users import User
+from core.config import settings
+from core.models.users import User
 
 T = TypeVar("T")
 
