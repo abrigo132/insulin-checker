@@ -40,7 +40,9 @@ class UsersCrud:
         return user_token
 
     @staticmethod
-    async def change_flag_is_verifed(user_id: int, session: AsyncSession) -> User:
+    async def change_flag_is_verified(
+        user_id: int, session: AsyncSession
+    ) -> User | bool:
         stmt = select(User).where(User.id == user_id)
         user_scalar: ScalarResult[User] = await session.scalars(stmt)
         user_info = user_scalar.one_or_none()
