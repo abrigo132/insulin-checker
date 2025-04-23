@@ -20,7 +20,7 @@ from core.schemas import TokenInfo
 from tasks import send_verification_message
 from crud import VerifToken
 
-router = APIRouter(prefix=settings.api.v1.users)
+router = APIRouter(prefix=settings.api.v1.users, tags=["users"])
 
 
 @router.post("/register/", response_model=UserRead)
@@ -97,7 +97,7 @@ async def verified_user(
                 status_code=HTTP_401_UNAUTHORIZED,
                 detail="Verification token has expired",
             )
-        user_data: User | False | None = await crud_user.change_flag_is_verifed(
+        user_data: User | False | None = await crud_user.change_flag_is_verified(
             user_id=check_verif_token.user_id,
             session=session,
         )
