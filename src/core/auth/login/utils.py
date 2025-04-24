@@ -46,7 +46,7 @@ def create_jwt(
 ):
     jwt_payload: dict = {TOKEN_TYPE_FIELD: token_type}
     jwt_payload.update(token_data)
-    return encode_jwt(payload=token_data, expire_minutes=expire)
+    return encode_jwt(payload=jwt_payload, expire_minutes=expire)
 
 
 def create_access_jwt(user: User):
