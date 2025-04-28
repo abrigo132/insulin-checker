@@ -1,10 +1,8 @@
 import pytest
-from httpx import get, post
-from pytest_dependency import depends
+from httpx import post
 
-from crud import UsersCrud
+
 from core.schemas import UserCreate, UserLogin
-from core.models import User
 
 
 @pytest.fixture
