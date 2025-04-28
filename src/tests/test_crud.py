@@ -13,7 +13,6 @@ from crud import UsersCrud
 from core.schemas import UserCreate
 
 
-
 @pytest_asyncio.fixture(scope="module")
 async def sqla_async_engine():
     engine: AsyncEngine = create_async_engine(str(settings.db.url))
