@@ -1,5 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import BaseModel, PostgresDsn
+from pydantic import BaseModel, PostgresDsn, AmqpDsn
 from pathlib import Path
 
 BASE_DIR = Path(__file__).parent.parent
@@ -38,6 +38,26 @@ class DbConfig(BaseModel):
     }
 
 
+class JwtConfig(BaseModel):
+    public: Path = BASE_DIR / "certs" / "jwt-public.pem"
+    private: Path = BASE_DIR / "certs" / "jwt-private.pem"
+    algorithm: str = "RS256"
+    access_token_expire_minutes: int = 15
+    refresh_token_expire_days: int = 60 * 24 * 30
+
+
+class SmtpConfig(BaseModel):
+    server: str
+    port: int
+    password: str
+    host: str
+    username: str
+
+
+class RabbitMqConfig(BaseModel):
+    url: AmqpDsn
+
+
 class Config(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / ".env.dev",
@@ -48,7 +68,10 @@ class Config(BaseSettings):
 
     db: DbConfig
     run: RunConfig = RunConfig()
-    api: ApiPrefixConfig = ApiV1PrefixConfig()
+    api: ApiPrefixConfig = ApiPrefixConfig()
+    jwt: JwtConfig = JwtConfig()
+    smtp: SmtpConfig
+    amqp: RabbitMqConfig
 
 
 settings: Config = Config()
