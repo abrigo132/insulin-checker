@@ -15,6 +15,8 @@ class ProductRepository:
         result: ScalarResult[Food] = await self.session.scalars(statement=stmt)
         return result.one_or_none()
 
-    async def add(self, product_info: ProductCreate):
-        self.session.add(product_info)
+    async def add(self, product_info: ProductCreate) -> Food:
+        product: Food = Food(**product_info.model_dump())
+        self.session.add(product)
         await self.session.commit()
+        return product
