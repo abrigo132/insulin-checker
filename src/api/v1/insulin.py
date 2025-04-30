@@ -5,6 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core import settings
 from core.models import db_helper
+from core.schemas import ProductList, InsulinDose
+from core.services import ProductsService
 
 
 router = APIRouter(prefix=settings.api.v1.insulin, tags=["insulin"])
