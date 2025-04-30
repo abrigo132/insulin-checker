@@ -19,3 +19,17 @@ class ProductInfo(ProductBase):
 
 class ProductCreate(ProductBase):
     pass
+
+
+class SelectedProduct(BaseModel):
+    id: int
+    weight_grams: float
+
+
+class ProductList(BaseModel):
+    product_list: list[SelectedProduct]
+
+
+class InsulinDose(BaseModel):
+    dose: float
+    total_carbohydrates: float
