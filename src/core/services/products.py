@@ -1,0 +1,24 @@
+from sqlalchemy import Sequence
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from core.models import Food
+from crud import ProductRepository
+from core.schemas import ProductList, InsulinDose
+
+
+class ProductsService:
+    def __init__(self, session: AsyncSession):
+        self.session: AsyncSession = session
+        self.repository: ProductRepository = ProductRepository(session=self.session)
+        self.total_carbohydrates: float = 0.0
+        self.all_products: Sequence[Food] | None = None
+
+    async def get_products_from_list(self, products: ProductList) -> None:
+        products_id = [product.id for product in products.product_list]
+        all_products: Sequence[Food] = await self.repository.get_list(
+            product_id_list=products_id
+        )
+        self.all_products = all_products
+
+    def calculate_insulin_dose(self) -> dict[str, str]:
+        pass
