@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core import settings
 from core.models import db_helper
-from core.schemas import ProductList, InsulinDose
+from core.schemas import ProductList, InsulinDose, ProductCreate, ProductInfo
 from core.services import ProductsService
 
 
@@ -22,3 +22,14 @@ async def get_product_by_name(
         session=session
     ).calculate_insulin_dose()
     return InsulinDose(**insulin_dose)
+
+
+@router.post("/products/add/", response_model=ProductInfo)
+async def create_product(
+    request: Request,
+    product_creds: ProductCreate,
+    session: Annotated[AsyncSession, Depends(db_helper.session_getter)],
+):
+    return await ProductsService(session=session).create_user_product(
+        product_creds=product_creds
+    )
