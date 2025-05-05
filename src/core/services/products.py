@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from core.models import Food
 from crud import ProductRepository
-from core.schemas import ProductList, InsulinDose
+from core.schemas import ProductList, InsulinDose, ProductCreate, ProductInfo
 
 
 class ProductsService:
@@ -22,3 +22,18 @@ class ProductsService:
 
     def calculate_insulin_dose(self) -> dict[str, str]:
         pass
+
+    async def create_user_product(self, product_creds: ProductCreate) -> ProductInfo:
+        new_product: Food = await self.repository.add(product_info=product_creds)
+        return ProductInfo(
+            name=new_product.name,
+            brand=new_product.brand,
+            calories=new_product.calories,
+            protein=new_product.protein,
+            fat=new_product.fat,
+            carbohydrates=new_product.carbohydrates,
+            fiber=new_product.fiber,
+            glycemic_index=new_product.glycemic_index,
+            category=new_product.category,
+            id=new_product.id,
+        )
