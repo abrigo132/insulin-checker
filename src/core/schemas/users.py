@@ -16,9 +16,13 @@ class UserRead(User):
     id: int
 
 
-class UserCreate(User):
+class UserRegisterCreds(User):
     password: str
     confirm_password: str
+
+
+class UserCreate(User):
+    hashed_password: bytes
 
 
 class UserLogin(BaseModel):
