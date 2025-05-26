@@ -7,7 +7,7 @@ from core.schemas import ProductList, InsulinDose, ProductCreate, ProductInfo
 
 
 class ProductsService:
-    def __init__(self, session: AsyncSession):
+    def __init__(self, session: AsyncSession = Depends(db_helper.session_getter)):
         self.session: AsyncSession = session
         self.repository: ProductRepository = ProductRepository(session=self.session)
         self.total_carbohydrates: float = 0.0
