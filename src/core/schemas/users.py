@@ -16,7 +16,7 @@ class UserRead(User):
     id: int
 
 
-class UserCreate(User):
+class UserRegisterCreds(User):
     password: str
     confirm_password: str
 
