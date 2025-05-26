@@ -6,8 +6,7 @@ __all__ = (
     "UserLogin",
     "Token",
     "TokenInfo",
-    "UserRegisterCreds",
 )
 
-from .users import User, UserToken, UserRead, UserLogin, UserCreate, UserRegisterCreds
+from .users import User, UserToken, UserRead, UserLogin, UserCreate
 from .jwt import Token, TokenInfo
