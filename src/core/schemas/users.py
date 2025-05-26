@@ -21,6 +21,10 @@ class UserRegisterCreds(User):
     confirm_password: str
 
 
+class UserCreate(User):
+    hashed_password: bytes
+
+
 class UserLogin(BaseModel):
     username: str
     password: str
