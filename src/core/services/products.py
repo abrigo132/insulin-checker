@@ -1,9 +1,11 @@
 from sqlalchemy import Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import Depends
 
 from core.models import Food
-from crud import ProductRepository
-from core.schemas import ProductList, InsulinDose, ProductCreate, ProductInfo
+from repositories import ProductRepository
+from core.schemas import ProductCreate, ProductInfo, ProductList
+from core.models import db_helper
 
 
 class ProductsService:
